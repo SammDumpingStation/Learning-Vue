@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html class="h-full bg-gray-100">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://unpkg.com/vue@3"></script>
+    <link href="./src/output.css" rel="stylesheet" />
+    <title>Starting with Vue JS</title>
+  </head>
+  <body class="h-full">
+    <div class="min-h-full">
+      <nav :class="{'bg-gray-100': !darkMode, 'bg-gray-800': darkMode}">
+        <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div class="flex h-16 items-center justify-between">
+            <div class="flex items-center">
+              <div class="flex-shrink-0">
+                <img
+                  class="h-8 w-8"
+                  src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=500"
+                  alt="Your Company"
+                />
+              </div>
+              <div class="hidden md:block">
+                <div class="ml-10 flex items-baseline space-x-4">
+                  <a
+                    v-for="(page, index) in pages"
+                    :href="page.link.url"
+                    :title="`This goes to the ${page.link.text} page`"
+                    class="rounded-md px-3 py-2 text-sm font-medium"
+                    :class="{'hover:bg-gray-300': activePage != index, 'bg-gray-900 text-white': activePage == index, 'text-gray-300 hover:bg-gray-700 hover:text-black ': darkMode && activePage != index}"
+                    aria-current="page"
+                    :key="index"
+                    @click.prevent="activePage = index"
+                    >{{ page.link.text }}</a
+                  >
+                </div>
+              </div>
+            </div>
+            <div>
+              <button
+                class="border px-10 py-2"
+                :class="{'border text-white': darkMode}"
+                @click.prevent="darkMode = !darkMode"
+              >
+                Turn on {{ light }} Mode
+              </button>
+            </div>
+          </div>
+        </div>
+      </nav>
+
+      <header class="bg-white shadow">
+        <div class="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
+          <h1 class="text-3xl font-bold tracking-tight text-gray-900">
+            Dashboard
+          </h1>
+        </div>
+      </header>
+      <main>
+        <div class="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
+          <!-- Your content -->
+          <div>
+            <h2>{{ pages[activePage].pageTitle }}</h2>
+            <p>{{ pages[activePage].content }}</p>
+          </div>
+        </div>
+      </main>
+    </div>
+
+    <script>
+      Vue.createApp({
+        data() {
+          return {
+            activePage: 0,
+            darkMode: true,
+            light: "Light",
+            pages: [
+              {
+                link: { text: "Home", url: "index.html" },
+                pageTitle: "Home Page",
+                content: "This is the Home Page",
+              },
+              {
+                link: { text: "Contact", url: "contact.html" },
+                pageTitle: "Contact Page",
+                content: "This is the Contact Page",
+              },
+              {
+                link: { text: "About", url: "about.html" },
+                pageTitle: "About Page",
+                content: "This is the About Page",
+              },
+            ],
+          };
+        },
+      }).mount("body");
+    </script>
+  </body>
+</html>
